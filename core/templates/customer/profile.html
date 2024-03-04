@@ -1,16 +1,53 @@
 {% extends 'customer/base.html' %}
 {% load bootstrap4 %}
 
+{% block head %}
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { auth } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDsNd1j1wmBrJxVSzlrNuIU2qQINuKZO4g",
+            authDomain: "haggle-4d5d5.firebaseapp.com",
+            projectId: "haggle-4d5d5",
+            storageBucket: "haggle-4d5d5.appspot.com",
+            messagingSenderId: "350134472662",
+            appId: "1:350134472662:web:17380cc55b4049f5ad9e77"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+    </script>
+{% endblock %}
+
+{% block content %}
+
 {% block main %}
 <!------------------------------CAN PUT THE CHATBOT HERE INSTEAD OF PROFILE OR IN THE BASE.HTML FOR CUSTOMER -------------------->
 <!------------------------------LINKED TO BASE.HTML AT BLOCK MAIN---------------------------------------------------------------->
 <b class="text-secondary">Basic Information</b><br>
-<div class="card mt-2 mb-5">
+<div class="card bg-white mt-2 mb-5">
     <div class="card-body">
-        <form method="post">
+        <form method="POST">
             {% csrf_token %}
             {% bootstrap_form user_form %}
             <input type="hidden" name="action" value="update_profile">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+
+<b class="text-secondary">Change Password</b><br>
+<div class="card bg-white mt-2 mb-5">
+    <div class="card-body">
+        <form method="POST">
+            {% csrf_token %}
+            {% bootstrap_form password_form %}
+            <input type="hidden" name="action" value="update_password">
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
     </div>
