@@ -1,0 +1,18 @@
+{% extends 'customer/base.html' %}
+{% load bootstrap4 %}
+
+{% block main %}
+<!------------------------------CAN PUT THE CHATBOT HERE INSTEAD OF PROFILE OR IN THE BASE.HTML FOR CUSTOMER -------------------->
+<!------------------------------LINKED TO BASE.HTML AT BLOCK MAIN---------------------------------------------------------------->
+<b class="text-secondary">Basic Information</b><br>
+<div class="card mt-2 mb-5">
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            {% bootstrap_form user_form %}
+            <input type="hidden" name="action" value="update_profile">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

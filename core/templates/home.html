@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <!-- side by side display-->
+            <div class="col-lg-12">
+                <h1 class="text-center mt-5 mb-5">Welcome to Haggle</h1>
+            </div>
+    
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+                    <!--<img src="images/del-3.jfif" class="card-img-top" alt="...">-->
+                    <div class="card-body">
+                        <h5 class="card-title">CUSTOMER</h5>
+                        <p class="card-text">Welcome to the Customer profile.</p>
+                        <a href="{% url 'customer:home' %}" class="btn btn-primary">Get Started</a>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+                    <!--<img src="images/del-3.jfif" class="card-img-top" alt="...">-->
+                    <div class="card-body">
+                        <h5 class="card-title">MERCHANT</h5>
+                        <p class="card-text">Welcome to the Merchant profile.</p>
+                        <a href="{% url 'merchant:home' %}" class="btn btn-primary">Get Started</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
