@@ -1,0 +1,124 @@
+{% extends 'merchant/base.html' %}
+{% load bootstrap4 %}
+
+{% block head %}
+<style>
+    #pills-tab a {
+        color: black;
+    }
+
+    #pills-tab a:hover {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    #pills-tab a.active {
+        color: #007bff;
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="row">
+        <!-- LEFT SIDE -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Haggle Summary</h4>
+                    </div> 
+                    <div class="card-body">
+                        <p>Product: {{ product.name }}</p>
+                        <p>Original Price: {{ product.price }}</p>
+                        <p>Time: {{ product.time }}</p>
+                        <p>Date: {{ product.date }}</p>
+                        <p>Margins (%): {{ product.margins }}</p>
+                        <p>Last Acceptable Offer: {{ product.merchant_offer }}</p>
+                    </div>
+                </div>
+            </div>
+
+        <!-- RIGHT SIDE -->
+        <div class="col-md-8">
+            <!-- Step tabs -->
+                <div class="card mb-5">
+                    <div class="card-body">
+                        
+                        <ul class="nav nav-pills nav-justified align-items-center mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="active" id="pills-info-tab" data-toggle="pill" href="#pills-info" role="tab" aria-controls="pills-info" aria-selected="true">Product Info</a>
+                            </li>
+                            <i class="fas fa-chevron-right"></i>
+                            <li class="nav-item" role="presentation">
+                                <a class="{% if step == 2 %}active {% endif %}" id="pills-time-tab" data-toggle="pill" href="#pills-time" role="tab" aria-controls="pills-time" aria-selected="false">Time and Date</a>
+                            </li>
+                            <i class="fas fa-chevron-right"></i>
+                            <li class="nav-item" role="presentation">
+                                <a class="{% if step == 3 %}active {% endif %}" id="pills-margins-tab" data-toggle="pill" href="#pills-margins" role="tab" aria-controls="pills-margins" aria-selected="false">Margins</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Step forms -->
+                <b>SCHEDULE A HAGGLE</b>
+                
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane show active" id="pills-info" role="tabpanel" aria-labelledby="info-tab">
+                        <h1>Product to haggle</h1>
+
+                        <form method="POST">
+                            {% csrf_token %}
+                            <b class="text-secondary">Product Information</b><br>
+                            <div class="card bg-white mt-2 mb-5">
+                                <div class="card-body">
+                                    {% bootstrap_form step1_form %}
+                                </div>
+                            </div>
+                            <input type="hidden" name="step" value="1">
+                            <button type="submit" class="btn btn-primary"
+                            onclick="$('#pills-time-tab').tab('show')";>Save and Continue</button>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane {% if step == 2 %} show active {% endif %}" id="pills-time" role="tabpanel" aria-labelledby="time-tab">
+                        <h1>Set Time and Date</h1>
+
+                        <form method="POST">
+                            {% csrf_token %}
+                            <b class="text-secondary">Set Time and Date</b><br>
+                            <div class="card bg-white mt-2 mb-5">
+                                <div class="card-body">
+                                    {% bootstrap_form step2_form %}
+                                </div>
+                            </div>
+                            <input type="hidden" name="step" value="2">
+                            <button type="submit" class="btn btn-primary"
+                            onclick="$('#pills-info-tab').tab('show')";>Back</button>
+                            <button type="submit" class="btn btn-primary"
+                            onclick="$('#pills-margins-tab').tab('show')";>Save and Continue</button>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane {% if step == 3 %} show active {% endif %}" id="pills-margins" role="tabpanel" aria-labelledby="margins-tab">
+                        <h1>Set margins</h1>
+
+                        <form method="POST">
+                            {% csrf_token %}
+                            <b class="text-secondary">Set Margins</b><br>
+                            <div class="card bg-white mt-2 mb-5">
+                                <div class="card-body">
+                                    {% bootstrap_form step3_form %}
+                                </div>
+                            </div>
+                            <input type="hidden" name="step" value="2">
+                            <button type="submit" class="btn btn-primary" onclick="$('#pills-info-tab').tab('show')" ;>Back</button>
+                            <button type="submit" class="btn btn-primary"><b>Schedule Haggle</b></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+```

@@ -9,13 +9,10 @@ from core.merchant import views as merchant_views
 customer_urlpatterns = [
     path('', customer_views.home, name="home"),
     path('profile/', customer_views.profile_page, name="profile"),
-    path('payment_method/', customer_views.payment_method_page, name="payment_method"),
-    path('haggle/', customer_views.haggle_page, name="haggle"),
 ]
 
 merchant_urlpatterns = [
     path('', merchant_views.home, name="home"),
-    path('schedule_haggle/', merchant_views.schedule_haggle_page, name="schedule_haggle"),
 ]
 
 urlpatterns = [

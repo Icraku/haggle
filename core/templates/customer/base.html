@@ -2,6 +2,11 @@
 {% load static %}
 
 {% block content %}
+
+{% url 'customer:haggle' as haggle_url %}
+{% url 'customer:profile' as profile_url %}
+{% url 'customer:payment_method' as payment_method_url %}
+
 <div class="container bg-light mt-4 pt-2 pb-5">
     <div class="row">
         <div class="col-lg-4">
@@ -10,12 +15,13 @@
                 <h4>{{ request.user.get_full_name }}</h4>
                 <p class="text-secondary">{{ request.user.email }}</p>
             </div>
-            <ul class="list-group">
-                <li class="list-group-item">Start a Haggle</li>
-                <li class="list-group-item">Previous Haggles</li>
-                <li class="list-group-item">Profile Information</li>
-                <li class="list-group-item">Payment Details</li>
-            </ul>
+    
+            <div class="list-group mt-5">
+                <a href="{% url 'customer:haggle' %}" class="list-group-item list-group-item-action {% if request.path == haggle_url %} active {% endif %}"><strong>Start a Haggle</strong></a>
+                <a href="#" class="list-group-item list-group-item-action">Previous Haggles</a>
+                <a href="{% url 'customer:profile' %}" class="list-group-item list-group-item-action {% if request.path == profile_url %} active {% endif %}">Profile Information</a>
+                <a href="{% url 'customer:payment_method' %}" class="list-group-item list-group-item-action {% if request.path == payment_method_url %} active {% endif %}">Payment Method</a>
+            </div>
         </div>
         <div class="vol-lg-8">
             {% block main %}

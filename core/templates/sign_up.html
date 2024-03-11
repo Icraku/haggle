@@ -23,12 +23,12 @@
                             {% bootstrap_form form %}
                             <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
 
-                            <p class="text-center mt-3 {% if request.GET.next != '/courier/' %}{% endif %} 
-                                                        {% if request.GET.next == '/courier/' %}{% endif %}">
+                            <p class="text-center mt-3 {% if request.GET.next != '/merchant/' %}{% endif %} 
+                                                        {% if request.GET.next == '/merchant/' %}{% endif %}">
                                 Already have an account? Sign In as
                                 <a class="nav-link active text-dark font-weight-bold" aria-current="page"
                                     href="/sign-in/?next=/customer/">Customer</a>
-                                <a class="nav-link text-dark font-weight-bold" href="/sign-in/?next=/courier/">Merchant</a>
+                                <a class="nav-link text-dark font-weight-bold" href="/sign-in/?next=/merchant/">Merchant</a>
                             </p>
                         </form>
                     </div>

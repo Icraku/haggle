@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -126,8 +125,9 @@ STATIC_URL = '/static/'
 LOGIN_URL = '/sign-in/'
 LOGIN_REDIRECT_URL = '/'
 
-FIREBASE_ADMIN_CREDENTIAL = os.path.join(BASE_DIR, "haggle-4d5d5-firebase-adminsdk-92idj-6a9431d07d.json")
 
-# Stripe API keys put in environment variables later
-STRIPE_API_PUBLIC_KEY = "pk_test_51OsH6KP2QCemmfOm6CVcOaIRWhSzPxt1quMEqGnc4s3U58vQkUaFbkNcJ1HqYHSop2G2Y9oksw941OyrorTppLKe00d8tASshh"
-STRIPE_API_SECRET_KEY = "sk_test_51OsH6KP2QCemmfOmkM80YgrWXqL87zJFqT3Zb4awwsNTlvfe0OAkLAv98K1ZInonLskOAWujFqVwDbH3EV4cYo6700EOcuUhYs"
+
+# settings.py
+
+# Configure the default auto field to use BigAutoField
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

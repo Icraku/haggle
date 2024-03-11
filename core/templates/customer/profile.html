@@ -3,9 +3,36 @@
 
 {% block head %}
     <script type="module">
+        // onVerify function to send idToken to server
+        function onVerify(idToken) {
+            var form = document.createElement("form");
+            form.method = "POST";
+
+            var element1 = document.createElement("input");
+            element1.name = "id_token";
+            element1.value = idToken;
+            form.appendChild(element1);
+
+            var element2 = document.createElement("input");
+            element1.name = "action";
+            element1.value = "update_phone";
+            form.appendChild(element2);
+
+            var element3 = document.createElement("input");
+            element1.name = "csrfmiddlewaretoken";
+            element1.value = "{{ csrf_token }}";
+            form.appendChild(element3);
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+
+
+
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { auth } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
         // TODO: Add SDKs for Firebase products that you want to use
         // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -21,35 +48,142 @@
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
+
+        // invisible recaptcha
+        const auth = getAuth();
+
+        window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+            'size': 'invisible'
+        });
+
+        // get phone Number
+        $('#get-code button').click(function() {
+            const phoneNumber = $('#get-code input').val();
+            console.log(phoneNumber);
+
+            signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier)
+                .then((confirmationResult) => {
+                    // SMS sent. Prompt user to type the code from the message, then sign the
+                    // user in with confirmationResult.confirm(code).
+                    console.log(confirmationResult);
+                    window.confirmationResult = confirmationResult;
+                    
+                    $('#get-code').addClass('d-none');
+                    $('#verify-code').removeClass('d-none');
+                }).catch((error) => {
+                    // Error; SMS not sent
+                    console.log(error);
+                    toast(error.message, 'error');
+                    });
+        });
+
+        // verify code
+        $('#verify-code button').click(function() {
+            const code = $('#verify-code input').val();
+
+            if (window.confirmationResult) {
+                confirmationResult.confirm(code).then((result) => {
+                    // User signed in successfully.
+                    const user = result.user;
+                    console.log(user.phoneNumber);
+                    console.log(user.uid);
+
+                    const phoneNumber = user.phoneNumber;
+
+                    auth().getUserByPhoneNumber(phoneNumber)
+                        .then((userRecord) => {
+                            // Successfully fetched user data
+                            console.log(`Successfully fetched user data: ${JSON.stringify(userRecord.toJSON())}`);
+                        })
+                        .catch((error) => {
+                            // Error fetching user data
+                            console.log('Error fetching user data:', error);
+                        });
+
+
+
+                    user.getIdToken().then(function(idToken){
+                        onVerify(idToken);
+                    });
+                }).catch((error) => {
+                    // User couldn't sign in (bad verification code?)
+                    toast(error.message, 'error');
+                });
+            }
+            else {
+                console.log('no confirmation result');
+                toast('No confirmation result', 'error');
+            }
+        });
+
+        // change phone number
+        $('#change-phone button').click(function() {
+            $('#change-phone').addClass('d-none');
+            $('#get-code').removeClass('d-none');
+        });
     </script>
+
+
 {% endblock %}
 
-{% block content %}
 
 {% block main %}
 <!------------------------------CAN PUT THE CHATBOT HERE INSTEAD OF PROFILE OR IN THE BASE.HTML FOR CUSTOMER -------------------->
 <!------------------------------LINKED TO BASE.HTML AT BLOCK MAIN---------------------------------------------------------------->
-<b class="text-secondary">Basic Information</b><br>
-<div class="card bg-white mt-2 mb-5">
-    <div class="card-body">
-        <form method="POST">
-            {% csrf_token %}
-            {% bootstrap_form user_form %}
-            <input type="hidden" name="action" value="update_profile">
-            <button type="submit" class="btn btn-primary">Save</button>
-        </form>
+    <!-- Basic information -->
+    <b class="text-secondary">Basic Information</b><br>
+    <div class="card bg-white mt-2 mb-5">
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                {% bootstrap_form user_form %}
+                <input type="hidden" name="action" value="update_profile">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
     </div>
-</div>
 
-<b class="text-secondary">Change Password</b><br>
-<div class="card bg-white mt-2 mb-5">
-    <div class="card-body">
-        <form method="POST">
-            {% csrf_token %}
-            {% bootstrap_form password_form %}
-            <input type="hidden" name="action" value="update_password">
-            <button type="submit" class="btn btn-primary">Save</button>
-        </form>
+    <!-- Password -->
+    <b class="text-secondary">Change Password</b><br>
+    <div class="card bg-white mt-2 mb-5">
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                {% bootstrap_form password_form %}
+                <input type="hidden" name="action" value="update_password">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
     </div>
-</div>
+
+    <!-- Phone number -->
+    <b class="text-secondary">Phone Number</b><br>
+    <div class="card bg-white mt-2 mb-5">
+        <div class="card-body">
+
+            <div id="recaptcha-container"></div>
+
+            <div id="get-code" class="input-group mb-3 {% if request.user.customer.phone_number %} d-none {% endif %}">
+                <input type="text" class="form-control" placeholder="Your Phone number">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button">Send Code</button>
+                </div>
+            </div>
+
+            <div id="verify-code" class="input-group mb-3 d-none">
+                <input type="text" class="form-control" placeholder="Verification Code">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button">Verify Code</button>
+                </div>
+            </div>
+
+            <div id="change-phone" class="input-group mb-3 {% if not request.user.customer.phone_number %} d-none {% endif %}">
+                <input type="text" class="form-control" disabled value="{{ request.user.customer.phone_number }}">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button">Change</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

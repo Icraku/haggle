@@ -1,4 +1,4 @@
-from .models import Customer
+from .models import Customer, Merchant
 
 class ProfileMiddleware:
     def __init__(self, get_response):
@@ -10,6 +10,9 @@ class ProfileMiddleware:
         # adding customers directly
         if request.user.is_authenticated and not hasattr(request.user, 'customer'):
             Customer.objects.create(user=request.user)
+
+        if request.user.is_authenticated and not hasattr(request.user, 'merchant'):
+            Merchant.objects.create(user=request.user)
 
         response = self.get_response(request)
 
