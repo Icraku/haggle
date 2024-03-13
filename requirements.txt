@@ -299,7 +299,6 @@ pypandoc==1.13
 pyparsing==3.0.9
 PyPDF2==3.0.1
 pypi-json==0.3.0
-pypiwin32==223
 PyQt5==5.15.10
 PyQt5-sip==12.13.0
 pyreadline3==3.4.1
@@ -322,8 +321,6 @@ pytz==2022.7.1
 pytz-deprecation-shim==0.1.0.post0
 pyviz-comms==2.3.0
 pywavelets==1.5.0
-pywin32==305.1
-pywin32-ctypes==0.2.0
 pywinpty==2.0.10
 PyYAML==6.0.1
 pyzmq==25.1.2
@@ -371,13 +368,7 @@ social-auth-core==4.5.3
 sortedcollections==2.1.0
 sortedcontainers==2.4.0
 soupsieve==2.5
-Sphinx==5.0.2
-sphinxcontrib-applehelp==1.0.2
-sphinxcontrib-devhelp==1.0.2
-sphinxcontrib-htmlhelp==2.0.0
-sphinxcontrib-jsmath==1.0.1
-sphinxcontrib-qthelp==1.0.3
-sphinxcontrib-serializinghtml==1.1.5
+
 spyder==5.2.2
 spyder-kernels==2.2.1
 SQLAlchemy==2.0.25
@@ -404,13 +395,6 @@ tangled-up-in-unicode==0.2.0
 TBB==0.2
 tblib==1.7.0
 tenacity==8.2.2
-tensorboard==2.12.1
-tensorboard-data-server==0.7.0
-tensorboard-plugin-wit==1.8.1
-tensorflow==2.12.0
-tensorflow-estimator==2.12.0
-tensorflow-intel==2.12.0
-tensorflow-io-gcs-filesystem==0.31.0
 termcolor==2.2.0
 terminado==0.17.1
 testpath==0.6.0
