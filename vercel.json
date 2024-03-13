@@ -1,0 +1,14 @@
+{
+    "builds": [
+        {
+            "src": "haggle/wsgi.py",
+            "use": "@vercel/python"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "haggle/wsgi.py"
+        }
+    ]
+}
