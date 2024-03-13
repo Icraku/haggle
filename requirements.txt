@@ -52,15 +52,6 @@ colorcet==3.0.1
 coloredlogs==15.0.1
 commonmark==0.9.1
 comtypes==1.1.10
-conda==22.9.0
-conda-build==3.22.0
-conda-content-trust==0.2.0
-conda-pack==0.6.0
-conda-package-handling==2.2.0
-conda_package_streaming==0.9.0
-conda-repo-cli==1.0.75
-conda-token==0.4.0
-conda-verify==3.4.2
 constantly==23.10.4
 cookiecutter==2.5.0
 cryptography==41.0.7
